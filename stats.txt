@@ -5,5 +5,7 @@ IFGSM Accuracy: 0.00500, Loss: 11.37106, Perturbation Difference: 154.10886
 Attack Time: 25.82 seconds
 PGD Accuracy: 0.05500, Loss: 3.77794, Perturbation Difference: 2158.67342
 Attack Time: 63.11 seconds
+PGD with Restarts Accuracy: 0.00000, Loss: 15.98997, Perturbation Difference: 314.70208
+Attack Time: 26.28 seconds
 SQUARE Accuracy: 0.15500, Loss: 3.12416, Perturbation Difference: 2254.68249
 Attack Time: 78.46 seconds
