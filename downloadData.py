@@ -3,7 +3,11 @@ import torchvision
 import torchvision.transforms as transforms
 
 # Set device
-device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
+# device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
+device = torch.device( # use Apple MPS (GPU)
+    "mps" if torch.backends.mps.is_built() else
+    "cuda" if torch.cuda.is_available() else
+    "cpu") 
 print(f"Using device: {device}")
 
 # Define transformations (normalize with CIFAR-10 statistics)

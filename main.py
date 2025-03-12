@@ -1,10 +1,11 @@
 import os
+import time
 import torch
 import torch.nn as nn
 import torch.optim as optim
 from dataset import AdvDataset
 from torch.utils.data import DataLoader
-from advAttack import fgsm, pgd, ifgsm
+from advAttack import fgsm, pgd, ifgsm, square_attack
 from attack import gen_adv_examples, create_dir
 from resnet import resnet50
 from efficientnet import efficientnet
@@ -120,11 +121,20 @@ def main(model_name="resnet50", num_classes=10, epochs=20, lr=0.001):
     benign_acc, benign_loss = evaluate_model(model, benign_loader, loss_fn, label="Benign")
 
     # Generate and evaluate adversarial examples
-    attacks = {"fgsm": fgsm, "ifgsm": ifgsm, "pgd": pgd}
+    attacks = {"fgsm": fgsm, "ifgsm": ifgsm, "pgd": pgd, "square": square_attack}
     for attack_name, attack_fn in attacks.items():
+        start_time = time.time()
         adv_examples, adv_acc, adv_loss, adv_diff = gen_adv_examples(model, benign_loader, attack_fn, loss_fn)
         print(f'{attack_name.upper()} Accuracy: {adv_acc:.5f}, Loss: {adv_loss:.5f}, Perturbation Difference: {adv_diff:.5f}')
         create_dir(root, attack_name, adv_examples, train_set.__getname__())
+        elapsed_time = time.time() - start_time
+        print(f'Attack Time: {elapsed_time:.2f} seconds')
+        # for i in range(10):
+        #     adv_examples, adv_acc, adv_loss, adv_diff = gen_adv_examples(model, benign_loader, attack_fn, loss_fn)
+        #     print(f'{attack_name.upper()} Accuracy: {adv_acc:.5f}, Loss: {adv_loss:.5f}, Perturbation Difference: {adv_diff:.5f}')
+        #     create_dir(root, attack_name, adv_examples, train_set.__getname__())
+        # elapsed_time = time.time() - start_time
+        # print(f'Average Attack Time: {elapsed_time / 10:.2f} seconds')
 
 if __name__ == "__main__":
     # Change model here by setting model_name

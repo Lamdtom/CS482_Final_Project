@@ -25,7 +25,11 @@ def resnet50(pretrained=False, num_classes=10):
 
 # Test the model
 if __name__ == "__main__":
-    device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
+    # device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
+    device = torch.device( # use Apple MPS (GPU)
+        "mps" if torch.backends.mps.is_built() else
+        "cuda" if torch.cuda.is_available() else
+        "cpu") 
     model = resnet50(pretrained=True).to(device)  # Load with pretrained weights
     print(model)  # Print model architecture
 import torch
@@ -55,6 +59,10 @@ def resnet50(pretrained=False, num_classes=10):
 
 # Test the model
 if __name__ == "__main__":
-    device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
+    # device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
+    device = torch.device( # use Apple MPS (GPU)
+        "mps" if torch.backends.mps.is_built() else
+        "cuda" if torch.cuda.is_available() else
+        "cpu") 
     model = resnet50(pretrained=True).to(device)  # Load with pretrained weights
     print(model)  # Print model architecture

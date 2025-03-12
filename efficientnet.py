@@ -21,6 +21,10 @@ def efficientnet(model_name="efficientnet_b0", num_classes=10, pretrained=True):
 
 # Example usage
 if __name__ == "__main__":
-    device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
+    # device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
+    device = torch.device( # use Apple MPS (GPU)
+        "mps" if torch.backends.mps.is_built() else
+        "cuda" if torch.cuda.is_available() else
+        "cpu") 
     model = efficientnet("efficientnet_b0", num_classes=10, pretrained=True).to(device)
     print(model)  # Display model architecture

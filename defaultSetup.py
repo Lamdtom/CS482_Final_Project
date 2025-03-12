@@ -1,7 +1,11 @@
 import torch
 from torchvision.transforms import transforms
 
-device = torch.device('cuda' if torch.cuda.is_available() else 'cpu')
+# device = torch.device('cuda' if torch.cuda.is_available() else 'cpu')
+device = torch.device( # use Apple MPS (GPU)
+    "mps" if torch.backends.mps.is_built() else
+    "cuda" if torch.cuda.is_available() else
+    "cpu") 
 batch_size = 8
 
 cifar_10_mean = (0.491, 0.482, 0.447)
